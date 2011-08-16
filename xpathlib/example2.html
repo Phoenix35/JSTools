@@ -1,0 +1,143 @@
+<html>
+<head>
+    <title>xLib Example Page</title>
+    <link rel="stylesheet" media="screen" title="Main design" href="design.css" />
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript" src="core.js"></script>
+	<script type="text/javascript"><!--//<![CDATA[
+		// Configuration for xLib.generateXPathForDomElement() method
+		var kwds = new Array();
+		kwds['toLowercase'] = true;
+		kwds['showId'] = true;
+		kwds['showClass'] = true;
+		kwds['showNS'] = false;
+        
+        // Functions for examples
+        function Example1(item)
+        {
+            // Get some HTML from the source
+            item.value = "You got the code from the first tab !";
+            item.setAttribute('disabled', 'disabled');
+            var node = xLib.evaluate("/html/body/div[@id='wrapper']/div[@id='toptabs']/dl[1]/dt[1]").nodes(0);
+            document.getElementById('example1_output').innerHTML = node.innerHTML;
+        }
+        
+        function Example2(node)
+        {
+            var nodeIndex = xLib.getIndex(node);
+            alert('The button you clicked on had the #' + nodeIndex + ' index.');
+        }
+        
+        function Example3(item)
+        {
+            var computedXPath = xLib.generateXPathForDomElement(item, 0, 99, null, document, kwds);
+            document.getElementById('example3_output').innerHTML = computedXPath;
+        }
+        
+        function Example3Proof(xpathstring)
+        {
+            var node = xLib.evaluate(xpathstring).nodes(0);
+            node.value = "You just edited me !";
+        }
+        
+        function Example4(checkbox, button)
+        {
+            var XPathOfCheckbox= xLib.generateXPathForDomElement(checkbox, 0, 99, null, document, kwds);
+            var nodeState = xLib.evaluate(XPathOfCheckbox).nodes(0).hasAttribute('checked');
+
+            if (nodeState)
+            {
+                xLib.evaluate(XPathOfCheckbox).nodes(0).removeAttribute('checked');
+                button.value = 'Click me to check the box !';
+            }
+            else
+            {
+                xLib.evaluate(XPathOfCheckbox).nodes(0).attribute('checked', 'checked');
+                button.value = 'Click me to uncheck the box !';
+            }
+        }
+	//]]>--></script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div class="toptabs" id="toptabs">
+            <dl>
+                <dt>
+                    <a href="./seek.php" class="unlinked active">
+                        <span><big>x</big>Lib example page</span>
+                    </a>
+                </dt>
+                <dt>
+                    <a href="">
+                        <span><big>[</big>Todo] Readme</span>
+                    </a>
+                </dt>
+                <dt>
+                    <a href="">
+                        <span><big>P</big>hoenix35</span>
+                    </a>
+                </dt>
+                <dt>
+                    <a href="">
+                        <span><big>C</big>ron</span>
+                    </a>
+                </dt>
+                <dt>
+                    <a href="">
+                        <span><big>V</big>ersion: 0.5.2</span>
+                    </a>
+                </dt>
+            </dl>
+        </div>
+
+        <div class="topbar" id="topbar">
+            <!--<div class="topbar-search">
+                <form action="/search">
+                    <input name="q" value="" autocomplete="off">
+                </form><a href="javascript:;"></a>
+            </div>-->
+            <div class="topbar-buttons"><span>&nbsp;This page shows almost every feature xLib provides. Click the buttons to try out. Enjoy !</span></div>
+        </div>
+        
+        <div id="pre">
+            <div class="breadcrumb">
+                <span class="breadcrumb-arrow">xLib</span>
+                <span>
+                    Example page
+                </span>
+            </div>
+        </div>
+        
+        <div id="inside">
+            <h3 style="border-bottom: 1px solid white;" class="block1">Demonstration of <tt>xLib.evaluate()</tt></h3>
+            <p class="block1">
+                Clicking on the button will fill the &lt;textarea&gt; with the source code of the first tab of that page.
+                <input type="button" value="Get some HTML code from this page !" onclick="Example1(this)" /><br />
+                <textarea id="example1_output" rows="4" cols="63"></textarea>
+            </p>
+            
+            <h3 style="border-bottom: 1px solid white;" class="block2">Demonstration of <tt>xLib.getIndex()</tt></h3>
+            <p class="block2">
+                Here you should get an alert giving you the index of those buttons. This value's determined by counting all similar DOM elements inside the parent.
+                    <input type="button" value="Get my index" onclick="Example2(this)" /> <input type="button" value="Get my index" onclick="Example2(this)" /> <input type="button" value="Get my index" onclick="Example2(this)" />
+            </p>
+            
+            <h3 style="border-bottom: 1px solid white;" class="block3">Demonstration of <tt>xLib.generateXPathForDomElement()</tt></h3>
+            <p class="block3" style="line-height: 22px;">
+                Here we demonstrate the capacity of xLib to generate <i>valid</i> XPaths. Here is the configuration for that function :<br />
+                <span class="inlinecode">var kwds = new Array();<br />kwds['toLowercase'] = true;<br />kwds['showId'] = true;<br />kwds['showClass'] = true;<br />kwds['showNS'] = false;</span><br />
+                <textarea id="example3_output" rows="1" cols="120" style="padding: 5px;">Here will be the XPath for the button</textarea><br />
+                <input type="button" value="Generate my XPath !" onclick="Example3(this)" /> Doubting ? Use the formular there ! <input type="text" id="example3_check" style="width: 383px" /> <input type="button" value="Try out !" onclick="Example3Proof(document.getElementById('example3_check').value)" />
+            </p>
+            
+            <h3 style="border-bottom: 1px solid white;" class="block2">Managing attributes</h3>
+            <p class="block2">
+                This example demonstrates the <tt>attibut()</tt> method. This function merges the regular <tt>setAttribute()</tt> and <tt>getAttribute()</tt> into one single method. Calling it goes this way : <tt>xLib.evalute(expr).nodes(offset).attribute()</tt>.<br />Specifying only the attribute name will return its value, or null if this attribute is not set for the element. If you specify two or more arguments, the method will assume the second argument is the value you want to be set for the attribute.<br />
+                <input type="checkbox" id="example4_checkbox"> Click that button to see what happens ... <input type="button" value="Click me to check the box !" onclick="Example4(document.getElementById('example4_checkbox'), this)" />
+            </p>
+        </div>
+    </div>
+
+</body></html>

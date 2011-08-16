@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+<head>
+	<!-- Authors: Phoenix35 & Cron (Kapoeira) -->
+	<title>Example for XPathLib</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript" src="core.js"></script>
+	<script type="text/javascript">
+		// Configuration for xLib.generateXPathForDomElement() method
+		var kwds = new Array();
+		kwds['toLowercase'] = true;
+		kwds['showId'] = true;
+		kwds['showClass'] = true;
+		kwds['showNS'] = false;
+	</script>
+	<style type="text/css">
+	fieldset { border: 1px solid black; padding: 5px; margin-bottom: 20px; }
+	legend { border-bottom: 1px solid black; font-size: 14px; }
+	.method { font-family: Consolas; font-size: 11px; padding-left: 5px; padding-right: 5px; }
+	fieldset * { margin-top: 15px; }
+	</style>
+</head>
+
+<body>
+	<h1>xLib example page</h1>
+	
+	<fieldset>
+		Click any of the buttons to see the effects of the methods of xLib. Tiny, but getting powerful ! =)
+	</fieldset>
+	
+	<fieldset>
+		<legend>Demonstration of <span class="method">xLib.evaluate()</span> conjoncted with .nodes() methods</legend>
+		<input type="button" onclick="alert(xLib.evaluate('//fieldset').nodes(1).innerHTML);" value="Get the second <fieldset> tag's HTML content !" />
+	</fieldset>
+	
+	<fieldset>
+		<legend>Demonstration if <span class="method">xLib.getIndex()</span> method</legend>
+		This will return null if the node is alone in his parent (which is the case =>).
+		<span>
+			<input type="button" onclick="alert(xLib.getIndex(this));" value="Get my index (should be null) !" />
+		</span>
+		<br />
+		This will not return null.
+		<input type="button" onclick="alert(xLib.getIndex(this));" value="Get my index (should be 1) !" /> 
+		<input type="button" onclick="alert(xLib.getIndex(this));" value="Get my index (should be 2) !" /> 
+		<input type="button" onclick="alert(xLib.getIndex(this));" value="Get my index (should be ... make a guess) !" />
+	</fieldset>
+	
+	<fieldset>
+		<legend>Demonstrations of <span class="method">xLib.generateXPathForDomElement()</span> method</legend>
+		<input type="button" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my XPath (I have no ID, nor any class)" />
+		<input type="button" id="example-1" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my XPath (I have one ID, but no class)" />
+		<input type="button" id="example-2" class="hello" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my XPath (I have one ID and one class)" />
+		<input type="button" id="example-3" class="hello world" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my XPath (I have one ID and two classes)" />
+		<br />
+		<input type="button" value="Alter the page and get the XPath of the created button" onclick="var newdiv=document.createElement('span'); var aTextBox=document.createElement('input'); aTextBox.type = 'button'; aTextBox.value = 'I\'m dynamically added.'; newdiv.appendChild(aTextBox); this.parentNode.appendChild(newdiv); aTextBox.addEventListener('click',alert(xLib.generateXPathForDomElement(aTextBox, 0, 99, null, document, kwds)), false);"> (Ye, it supports dynamic page modifications. To check it, try the next <span class="method">fieldset</span>)
+	</fieldset>
+	
+	<fieldset>
+		<legend>Check the XPath of buttons</legend>
+		<input type="text" id="checker" value="Enter XPath expression here" />
+		<input type="button" value="Alter the chosen button" onclick="xLib.evaluate(document.getElementById('checker').value).nodes(0).value='This node has been altered !'" />
+	</fieldset>
+    
+    <fieldset>
+        <legend>Attributing values to a node</legend>
+        This code uses the <span class="method">xLib.evaluate(..).nodes(..).attribute()</span> method.That one has two usages :<br />
+        - attribute(a, b) : Sets attribute a of the selected node to value b.<br />
+        - attribute(a) : Return the value of thisattribute for the selected node.<br />
+        <input type="checkbox" /> Click that button to check that box ! <input type="submit" value="Click me !" onclick="xLib.evaluate('//input[@type=\'checkbox\']').nodes(0).attribute('checked', 'checked');" />
+    </fieldset>
+	<h6>© ® Cron AKA Kapoeira & Pheonix35</h6>
+</body>
+
+</html>
