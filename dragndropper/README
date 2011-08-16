@@ -1,0 +1,19 @@
+What is that ?
+
+This file is a simple tool I made to get a specific portion of an image. It can return, in <input> entities,
+the offset of the pixel from which you cut, taking the top left corner as the origin. It also returns the 
+width and the height of the image you want to get as a result. Simply pass those as hidden <input> fields.
+The user can't take an image that would get out of the box. Specifying a new size for the mover does not 
+break the collision checks with the borders of the parent element. However, i strongly advice you to 
+doublecheck you're not going to draw something empty with GD, this time in the PHP script.
+Then you could use the sample php script I made.
+
+PHP SCRIPT FORMAT
+file.php?params=100,20,50,50,IMAGEURL
+The point of coordinates (100, 20) will be used as the beginning to the cropping in the file which URL is IMAGEURL. 
+The script returns as an image as willed, except if errors are thrown. That's very basic and insecure, I'm counting
+on you to enhance it.
+
+-------------
+Author: Kapoeira A.K.A Cron.
+Feel free to improve, modify or enhance this little tool.
