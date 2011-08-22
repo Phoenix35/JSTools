@@ -87,12 +87,6 @@
 				DragnDrop.dragObject.style.left = positionLeft + "px";
 				DragnDrop.dragObject.style.cursor = "move";
 				
-				// Also give informations
-				document.getElementById("cp1").value = positionLeft;
-				document.getElementById("cp2").value = positionTop;
-				document.getElementById("cp3").value = positionLeft + DragnDrop.dragObjectWidth;
-				document.getElementById("cp4").value = positionTop + DragnDrop.dragObjectHeight;
-				
 				return false;
 			}
 		},
@@ -103,6 +97,7 @@
 			DragnDrop.dragObject = null;
 		},
 		
+		// Flag the clicked object as dragged and set it and its parent in the class.
 		makeDraggable: function(item, parent)
 		{
 			// We are hooking a block so that it becomes movable
@@ -115,11 +110,12 @@
 				// Get mouse's coordinates against the topleft corner of the dragged element
 				DragnDrop.getMouseOffset(this, ev);
 				
-				// Defining parent boject
+				// Defining parent object
 				DragnDrop.parentObject = parent;
 				DragnDrop.getPosition(parent, 0); // Store the parent's position
 				
 				// Saving in the JS object
+				// TODO: This is pure shit, fix that
 				DragnDrop.dragObjectWidth = Number(this.style.width.replace('px',''));
 				DragnDrop.dragObjectHeight = Number(this.style.height.replace('px',''));
 				DragnDrop.parentObjectWidth = Number(parent.style.width.replace('px',''));
@@ -141,6 +137,7 @@
 			DragnDrop.mouseY = ev.clientY + DragnDrop.parentObject.scrollTop - DragnDrop.parentObject.clientTop;
 		},
 		
+		// Resize mover, if by any chance you wish to do so.
 		resizeMover: function(i, w, h)
 		{
 			DragnDrop.dragObjectWidth = w;
@@ -150,13 +147,16 @@
 				node.style.width = w;
 				node.style.height = h;
 				// Placing it back to topleft corner to avoid strange behavior
+				// TODO: Remove this and compute the correct position
 				node.style.left = 0;
 				node.style.top = 0;
 			}
 		}
 	};
 	
+	// Attach events to DOM.
 	document.onmousemove = DragnDrop.mouseMove;
 	document.onmouseup   = DragnDrop.mouseUp;
 	
+	// Move this crap out, leaving it there for god's sake.
 	window.addEventListener("load", function() { DragnDrop.makeDraggable(document.getElementById('drag'), document.getElementById('dragParent')) }, false);
