@@ -19,3 +19,5 @@ cLib is a Javascript library which simplify Canvas uses.
 
 
 HOW-TO:
+    var a = new cLib(Image, [Width [, Height]]);
+    a.tocanvas();   // to get the canvas node with the image within
