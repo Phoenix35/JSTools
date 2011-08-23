@@ -1,12 +1,12 @@
 ************************************************************************
-* Copyright 2010, 2011 Phoenix35, Kapoeira.                            *
+* Copyright 2011 Phoenix35, Kapoeira.                                  *
 *                                                                      *
-* This file is part of xLib.                                           *
+* This file is part of cLib.                                           *
 *                                                                      *
-* xLib is free software: you can redistribute it and/or modify         *
+* cLib is free software: you can redistribute it and/or modify         *
 * it under the terms of the GNU General Public License as published by *
 * the Free Software Foundation version 3 of the License.               *
-* xLib is distributed in the hope that it will be useful,              *
+* cLib is distributed in the hope that it will be useful,              *
 * but WITHOUT ANY WARRANTY; without even the implied warranty of       *
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
 * GNU General Public License for more details.                         *
@@ -14,13 +14,8 @@
 
 
 
-** Version 0.5.2
-xLib is a Javascript library which makes XPath a lot easier.
+** Version 0.0.1
+cLib is a Javascript library which simplify Canvas uses.
 
 
 HOW-TO:
-     var a = xLib.evaluate(STRING xpathExpression [, XPathResult.CONSTANT or NUMBER resultType [, FUNCTION namespaceResolver]]);  // Returns the XPath Object matching xpathExpression of the type resultType (ANY_TYPE by default)
-     a.value = numberValue, stringValue or booleanValue (depends on resultType)
-     a.node = a.singleNodeValue
-     a.nodes(n) = function returning the n'th node of the XPath Object (equivalent of snapshotItem(n) or iterateNext() 'n' times)
-     a.nodes(n).attribute(x [, y]) = if only x is provided, return getAttribute(x), otherwise return setAttribute(x, y)
