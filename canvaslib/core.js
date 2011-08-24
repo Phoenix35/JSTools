@@ -24,13 +24,13 @@ var cLib = function (HTMLimg, w, h) {
  // HTMLimg can be <img />...
  if(HTMLimg instanceof HTMLImageElement) {
     img.src = HTMLimg.src;
-    img.width = w || HTMLimg.width;
+    img.width = (w===0)? 0 : w || HTMLimg.width;
     img.height = h || HTMLimg.height;
  }
  // ... or a string
  else if(typeof HTMLimg === "string") {
     img.src = HTMLimg;
-    img.width = w || img.width;
+    img.width = (w===0)? 0 : w || img.width;
     img.height = h || img.height;
  }
  else {
@@ -41,11 +41,18 @@ var cLib = function (HTMLimg, w, h) {
  
  img.toCanvas = function (context) {
   var canvas = document.createElement("canvas");
-  var ctx = canvas.getContext(context || "2d");
   canvas.width = this.width;
   canvas.height = this.height;
+  
+  var ctx = canvas.getContext(context || "2d");
   ctx.drawImage(this, 0, 0);
   ctx.putImageData(ctx.getImageData(0, 0, this.width, this.height), 0, 0);
+  
+  
+  canvas.read = function (x, y) {
+  
+  }
+  canvas.context = ctx;
   return canvas;
  }
  
