@@ -17,37 +17,41 @@
            null   when errors
 */
 
-var cLib = function (HTMLimg, w, h) {
+var cLib = function (HTMLimg, w, h)
+{
+    var img = new Image();
  
- var img = new Image();
+    // HTMLimg can be <img />...
+    if (HTMLimg instanceof HTMLImageElement) 
+    {
+        img.src = HTMLimg.src;
+        img.width = w || HTMLimg.width;
+        img.height = h || HTMLimg.height;
+    }
+    // ... or a string
+    else if (typeof HTMLimg === "string") 
+    {
+        img.src = HTMLimg;
+        img.width = w || img.width;
+        img.height = h || img.height;
+    }
+    else 
+    {
+        alert("No valid image was given. Aborting.");
+        return null;
+    }
  
- // HTMLimg can be <img />...
- if(HTMLimg instanceof HTMLImageElement) {
-    img.src = HTMLimg.src;
-    img.width = w || HTMLimg.width;
-    img.height = h || HTMLimg.height;
- }
- // ... or a string
- else if(typeof HTMLimg === "string") {
-    img.src = HTMLimg;
-    img.width = w || img.width;
-    img.height = h || img.height;
- }
- else {
-    alert("None valid image was given. Aborting.");
-    return null;
- }
  
+    img.toCanvas = function (context) 
+    {
+        var canvas = document.createElement("canvas");
+        var ctx = canvas.getContext(context || "2d");
+        canvas.width = this.width;
+        canvas.height = this.height;
+        ctx.drawImage(this, 0, 0);
+        ctx.putImageData(ctx.getImageData(0, 0, this.width, this.height), 0, 0);
+        return canvas;
+    }
  
- img.toCanvas = function (context) {
-  var canvas = document.createElement("canvas");
-  var ctx = canvas.getContext(context || "2d");
-  canvas.width = this.width;
-  canvas.height = this.height;
-  ctx.drawImage(this, 0, 0);
-  ctx.putImageData(ctx.getImageData(0, 0, this.width, this.height), 0, 0);
-  return canvas;
- }
- 
- return img;
+    return img;
 }
